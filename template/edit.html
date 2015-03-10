@@ -1,0 +1,63 @@
+{% extends "template/base.html" %}
+{% block title %}Employee CRUD - Edit{% endblock %}
+{% block content %}
+            <div class="page-header">
+                <h3>Edit Record</h3>
+            </div>
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <a href="/" class="btn btn-default btn-sm"><span class="glyphicon glyphicon-arrow-left"></span>  Back to List</a>
+                </div>
+                <div class="panel-body">
+                    <form id="employee-entry" class="form-horizontal" role="form" method="post" action="/edit">
+                        <input type="hidden" name="id" value="{{ employee.key.id() }}">
+                        <div class="form-group">
+                            <label class="col-lg-2 control-label" for="name">Name</label>
+                            <div class="col-lg-4">
+                                <input type="text" class="form-control" id="name" name="name" value="{{ employee.name }}" required />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-lg-2 control-label" for="gender">Gender</label>
+                            <div class="col-lg-4">
+                                <select id="gender" class="form-control" name="gender">
+                                    <option {% if employee.gender=='Male' %} selected {% endif %}>Male</option>
+                                    <option {% if employee.gender=='Female' %} selected {% endif %}>Female</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-lg-2 control-label" for="dob">Date of Birth</label>
+                            <div class="col-lg-4">
+                                <input type="date" class="form-control" id="dob" name="dob" value="{{ employee.dob }}" required />
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="col-lg-offset-2 col-lg-4">
+                                <button type="submit" class="btn btn-primary">Submit</button>
+                            </div>
+                        </div> 
+                    </form>
+                </div>
+            </div>
+{% endblock %}
+{% block footer_script %}
+    <script>
+        // jQuery plugin to prevent double submission of forms
+        jQuery.fn.preventDoubleSubmission = function () {
+            $(this).on('submit', function (e) {
+                var $form = $(this);
+
+                if ($form.data('submitted') === true) {
+                    // Previously submitted - don't submit again
+                    e.preventDefault();
+                } else {
+                    // Mark it so that the next submit can be ignored
+                    $form.data('submitted', true);
+                }
+            });
+            return this;
+        };
+    </script>   
+{% endblock %}
